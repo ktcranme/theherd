@@ -67,7 +67,7 @@ function create_tournament_html(tournament, index) {
 				<div class="list-group">
 		`
 		for(var j = 0; j < tournament['events'].length; j++) {
-			accordionChunk += "<a href='tournament/"+tournament['id']+"/"+tournament['events'][j]['id']+"' class='list-group-item list-group-item-action'>"+tournament['events'][j]['name']+"</a>";
+			accordionChunk += "<a href='findplayer/"+tournament['id']+"/"+tournament['events'][j]['id']+"' class='list-group-item list-group-item-action'>"+tournament['events'][j]['name']+"</a>";
 		}
 		accordionChunk += `
 				</div>

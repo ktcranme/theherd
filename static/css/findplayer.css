@@ -1,0 +1,32 @@
+#mainContainer {
+	margin-top: 10%;
+}
+
+.no-side-padding {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.text-center{
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+#noResultsCollapse {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.prefix {
+	color: #A8AAAD;
+}
+
+.players {
+  display: flex;
+}
+.players.space-around {
+  justify-content: space-around;
+}
+.players.space-between {  
+  justify-content: space-between;
+}
