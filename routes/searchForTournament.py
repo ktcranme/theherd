@@ -12,7 +12,6 @@ def testing():
     latitude = request.args.get('lat')
     longitude = request.args.get('lng')
     results = perform_tournament_api_call(latitude+","+longitude)
-    print(len(results['tournaments']['nodes']))
 
     potential_tournaments = []
     curr_time = time.time()
@@ -71,5 +70,4 @@ def perform_tournament_api_call(coordinates):
         "videogameIds": [1, 2, 3, 4, 5, 29]
     }
     results = client.execute(query1, variables)
-    print(results)
     return results

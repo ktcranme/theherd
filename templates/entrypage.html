@@ -4,7 +4,7 @@
 <title>Smash.gg Scouter</title>
 
 <div class="container" id="mainContainer">
-    <h4 class="text-center">Start by finding the tournament you are entered in</h4>
+    <h4 class="text-center">Start by finding the Tournament and Event you are entered in</h4>
     <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-lg">Tournament</span>
@@ -12,7 +12,7 @@
         <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="tournament-textbox">
         <button type="button" class="btn btn-primary" onclick="getLocation()">Search</button>
         <div class="container collapse" id="tournamentCollapse">
-            <div class="list-group" id="tourney-list-group">
+            <div class="accordion" id="tourney-accordion">
             </div>
         </div>
         <div class="container collapse" id="noResultsCollapse">

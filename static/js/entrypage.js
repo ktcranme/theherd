@@ -15,8 +15,8 @@ function search_for_tournament(position) {
 			return res.json();
 		}).then(data => {
 			display_tournaments(data);
-		}).catch(() => {
-			console.log("Error fetching the tournamentSearch API")
+		}).catch((err) => {
+			console.log("Error fetching the tournamentSearch API: "+err)
 		});
 }
 
@@ -32,15 +32,47 @@ function display_tournaments(data) {
 	if (data.length == 0) {
 		$('#noResultsCollapse').collapse("toggle");
 	} else {
-		var listGroup = ""
+		var accordion = ""
 		for (var i = 0; i < data.length; i++) {
-			listGroup += create_tournament_html(data[i]['name'])
+			accordion += create_tournament_html(data[i], i)
 		}
-		$('#tourney-list-group').html(listGroup)
+		$('#tourney-accordion').html(accordion)
 		$('#tournamentCollapse').collapse("toggle");
 	}
 }
 
-function create_tournament_html(name) {
-	return "<a href='#'' class='list-group-item list-group-item-action'>"+name+"</a>";
+function create_tournament_html(tournament, index) {
+	var accordionChunk = `
+	  <div class="card">
+	    <div class="card-header" id="heading`+index+`">
+	      <h2 class="mb-0">
+	        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse`+index+`" aria-expanded="true" aria-controls="collapse`+index+`">
+	          `+tournament['name']+`
+	        </button>
+	      </h2>
+	    </div>
+	`
+	if(tournament['events'].length == 0) {
+		accordionChunk += `
+		    <div id="collapse`+index+`" class="collapse" aria-labelledby="heading`+index+`" data-parent="#tourney-accordion">
+		      <div class="card-body">
+		        There are no events listed for this tournament
+		      </div>
+		    </div>
+		  </div>
+		`
+	} else {
+		accordionChunk += `
+			<div id="collapse`+index+`" class="container collapse" aria-labelledby="heading`+index+`" data-parent="#tourney-accordion">
+				<div class="list-group">
+		`
+		for(var j = 0; j < tournament['events'].length; j++) {
+			accordionChunk += "<a href='tournament/"+tournament['id']+"/"+tournament['events'][j]['id']+"' class='list-group-item list-group-item-action'>"+tournament['events'][j]['name']+"</a>";
+		}
+		accordionChunk += `
+				</div>
+			</div>
+		`
+	}
+	return accordionChunk;
 }
