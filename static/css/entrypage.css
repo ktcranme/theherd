@@ -1,0 +1,18 @@
+#mainContainer {
+	margin-top: 10%;
+}
+
+#tournamentCollapse {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#noResultsCollapse {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.text-center{
+	text-align: center;
+	margin-bottom: 50px;
+}

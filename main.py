@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
+from routes import searchForTournament
 
 app = Flask(__name__)
 
@@ -49,13 +50,17 @@ def index():
 
 	#resData = json.loads(getSeedsResult)
 	print(getSeedsResult)
-	return 'This is the homepage'
+	return render_template("entrypage.html")
 
 
 @app.route('/tournament-scout/<tournament>/<player>')
 def tournament(tournament, player):
 	return render_template("tournament.html", tournament=tournament, player=player)
 
+
+
+#register blueprints for internal api calls
+app.register_blueprint(searchForTournament.tournamentSearch_bp)
 
 if __name__ == '__main__':
 	app.run(debug=True)
