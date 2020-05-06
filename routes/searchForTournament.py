@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
-import time
 tournamentSearch_bp = Blueprint('tournament_search_api', __name__, url_prefix='/tournament-search')
 
 authToken = 'b840d07ebf9af93837d3b53fd1ff1aec'
@@ -14,9 +13,8 @@ def testing():
     results = perform_tournament_api_call(latitude+","+longitude)
 
     potential_tournaments = []
-    curr_time = time.time()
     for tourney in results['tournaments']['nodes']:
-        if curr_time < tourney['endAt'] and tournament_name.lower() in tourney['name'].lower():
+        if (tourney['state'] != 2 or tourney['state'] != 4) and tournament_name.lower() in tourney['name'].lower():
             potential_tournaments.append(tourney)
 
 
