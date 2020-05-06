@@ -28,6 +28,7 @@ function handle_results(data, player_id) {
 		"sets": [
 			{
 				"opponent": "C9 Mang0",
+				"opponent_id": 1000,
 				"winner": "C9 Mang0",
 				"opponentGamesWon": 3,
 				"playerGamesWon": 1,
@@ -37,6 +38,7 @@ function handle_results(data, player_id) {
 			},
 			{
 				"opponent": "n0ne",
+				"opponent_id": 1050,
 				"winner": "n0ne",
 				"opponentGamesWon": 2,
 				"playerGamesWon": 0,
@@ -46,6 +48,7 @@ function handle_results(data, player_id) {
 			},
 			{
 				"opponent": "floatz",
+				"opponent_id": 1800,
 				"winner": "Cranberry",
 				"opponentGamesWon": 0,
 				"playerGamesWon": 2,
@@ -55,6 +58,7 @@ function handle_results(data, player_id) {
 			},
 			{
 				"opponent": "Bin",
+				"opponent_id": 1090,
 				"winner": "Bin",
 				"opponentGamesWon": 3,
 				"playerGamesWon": 2,
