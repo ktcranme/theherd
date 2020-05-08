@@ -19,10 +19,11 @@ function page_load(player_id) {
 
 //here is where we will handle the scout results and display them to the user
 function handle_results(data, player_id) {
+	if(data == null || data.length == 0){
+		$('#noResultsCollapse').collapse("toggle");
+	}
 	player_name = data.gamerTag
 	var sets = data.sets
-	//console.log("SETS")
-	//console.log(sets)
 	var tour = []
     var lookup_tour = {};
 	var count
