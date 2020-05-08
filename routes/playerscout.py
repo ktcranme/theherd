@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 import time
+import json
 playerScout_bp = Blueprint('player_scout_api', __name__, url_prefix='/scout-player')
 
 authToken = 'b840d07ebf9af93837d3b53fd1ff1aec'
@@ -15,10 +16,7 @@ def testing():
 
     data = {"gamerTag":results["player"]["gamerTag"],"sets":[]}
            
-    if results['player']['recentSets'] == None:
-      print('There is no resent sets for this player') 
-      data = {"gamerTag":results["player"]["gamerTag"],"sets":None}  
-    else:
+    try:
       for tour in results['player']['recentSets']:
         tourinfo = tour["displayScore"]
         indexforin = tourinfo.find('-')
@@ -36,12 +34,10 @@ def testing():
         ind = prot_id1.find(player_id1)
         if ind != -1:
           ind = prot_id1.find('"id":')
-          ind2 = prot_id1.find('"gamerTag":')
-          opponent_id = prot_id1[ind+5:ind2-2]
+          opponent_id = prot_id1[ind+5:ind+11]
         else:
           ind = prot_id2.find('"id":')
-          ind2 = prot_id2.find('"gamerTag":')
-          opponent_id = prot_id2[ind+5:ind2-2]
+          opponent_id = prot_id2[ind+5:ind+11]
         
         try:
           opponent_id = int(opponent_id)
@@ -64,6 +60,10 @@ def testing():
                 "tournament": tour["event"]["tournament"]["name"],
                 "event": tour["event"]["name"]}
         data["sets"].append(add_tour)
+    except:
+      print('There is no resent sets for this player') 
+      data = {"gamerTag":results["player"]["gamerTag"],"sets":None}  
+
 
     #here loop through all the sets inside the results and append them to
     #the 'sets' attribute inside the data object. Try to follow the format
