@@ -13,20 +13,20 @@ function page_load(tournament_id, event_id, entrant_id) {
 	tournament_id = tournament_id;
 	event_id = event_id;
 	entrant_id = entrant_id;
-	/*
 	fetch('/get-tourney-info/testing?tournament-id=' + tournament_id+'&event-id='+event_id +'&entrant-id='+entrant_id)
 		.then(res => {
 			return res.json();
 		}).then(data1 => {
 			data = data1;
-			//localStorage.setItem('result', JSON.stringify(data1));
+			localStorage.setItem('result', JSON.stringify(data1));
 			handle_results(data, tournament_id, event_id, entrant_id);
 			loaded = true;
 		});
-	*/
+	/*
 	data = localStorage.getItem('result');
 	data = JSON.parse(data);
 	handle_results(data, tournament_id, event_id, entrant_id);
+	*/
 }
 
 
