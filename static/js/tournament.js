@@ -6,6 +6,10 @@ var entrant_id;
 var bracket = {
 	"phases": []
 };
+var player_override = {
+	'entrant_id': null,
+	'overrides': []
+}
 var data;
 var expected_rounds_player_will_win = null;
 
@@ -13,12 +17,13 @@ function page_load(tournament_id, event_id, entrant_id) {
 	tournament_id = tournament_id;
 	event_id = event_id;
 	entrant_id = entrant_id;
+	player_override['entrant_id'] = entrant_id;
 	fetch('/get-tourney-info/testing?tournament-id=' + tournament_id+'&event-id='+event_id +'&entrant-id='+entrant_id)
 		.then(res => {
 			return res.json();
 		}).then(data1 => {
 			data = data1;
-			localStorage.setItem('result', JSON.stringify(data1));
+			//localStorage.setItem('result', JSON.stringify(data1));
 			handle_results(data, tournament_id, event_id, entrant_id);
 			loaded = true;
 		});
@@ -31,8 +36,8 @@ function page_load(tournament_id, event_id, entrant_id) {
 
 
 //here is where we will handle the tournament results and display them to the user
-function handle_results(data, tournament_id, event_id, entrant_id) {
-	console.log(data);
+function handle_results(data, tournament_id, event_id, entrant_id_) {
+	entrant_id = entrant_id_
 	if(data != null && data === 'no phases') {
 		$('#tourney-dashboard').html(`
 			<h5 class="text-center">Unfortunately, 
@@ -91,7 +96,6 @@ function get_inside_phase_accordion(data, index, entrant_id) {
 	phase = data['event']['phases'][index]
 	var s = "";
 	var index_of_group = find_index_of_phase_group_that_player_is_in(phase, entrant_id);
-
 	var accordions_accordion = ""
 	if(phase['phaseGroups']['nodes'][index_of_group]['state'] == 3){
 		accordions_accordion = get_accordions_accordion_of_completed_phase(data, index, index_of_group, entrant_id)
@@ -111,6 +115,7 @@ function get_inside_phase_accordion(data, index, entrant_id) {
 }
 
 function get_accordions_accordion_of_completed_phase(data, index, index_of_group, entrant_id){
+
 	phase = data['event']['phases'][index]
 	var in_losers = is_player_in_losers(phase, index_of_group, entrant_id)
 	var highest_winners_round_id = find_highest_winners_round_id(data['event']['phases'][index], index_of_group, entrant_id);
@@ -198,12 +203,13 @@ function get_accordions_accordion(data, index, index_of_group, entrant_id){
 			return Math.abs(a['round']) - Math.abs(b['round']);
 		});
 		var curr_round_id = current_set['round'];
-		console.log(sets_player_may_be_in)
 		//add the players current set
 		if(both_entrants_confirmed){
 			var r = "WIN";
+			var b = `<button type="button" class="btn btn-primary" onclick="new_player_override(`+current_set['slots'][opponent_index]['entrant']['id']+`, 2)">What if I lose here</button>`;
 			if(current_set['likely_loser']['id'] == entrant_id){
 				r = "LOSS";
+				b = `<button type="button" class="btn btn-primary" onclick="new_player_override(`+current_set['slots'][opponent_index]['entrant']['id']+`, 1)">What if I win here</button>`;
 			}
 			s += `
 	      			<!-- start of one rounds dropdown -->
@@ -211,6 +217,7 @@ function get_accordions_accordion(data, index, index_of_group, entrant_id){
 					    <div class="card-header" id="heading`+index+`_`+r_id+`">
 					      	<h6 class="mb-0">`+current_set['fullRoundText']+` against <a href="/scout/`+current_set['slots'][opponent_index]['entrant']['participants'][0]['player']['id']+`">`+current_set['slots'][opponent_index]['entrant']['name']+`</a> upcoming, goodluck!</h6>
 					      	<span>Expected result: `+r+`</span>
+					      	`+b+`
 					    </div>
 					</div>
 	      			<!-- end of one rounds dropdown -->
@@ -271,10 +278,12 @@ function make_accordions_accordion_string(data, p_id, g_id, entrant_id, set) {
 	player = "likely_winner";
 	opponent = "likely_loser";
 	result = "WIN";
+	var b = `<button type="button" class="btn btn-primary" onclick="new_player_override(`+set[opponent]['id']+`, 2)">What if I lose here</button>`;
 	if(set['likely_loser']['id'] == entrant_id) {
 		player = "likely_loser";
 		opponent = "likely_winner";
 		result = "LOSS";
+		b = `<button type="button" class="btn btn-primary" onclick="new_player_override(`+set[opponent]['id']+`, 1)">What if I win here</button>`;
 	}
 	var s = `
 	      			<!-- start of one rounds dropdown -->
@@ -284,6 +293,7 @@ function make_accordions_accordion_string(data, p_id, g_id, entrant_id, set) {
 					        	<button class="btn btn-link" data-toggle="collapse" data-target="#collapse`+p_id+`_`+set['round']+`" aria-expanded="true" aria-controls="collapse`+p_id+`_`+set['round']+`">
 					      			Click for other potential opponents
 					        	</button>
+					        	`+b+`
 					      	</h6>
 					    </div>
 
@@ -315,4 +325,25 @@ function make_accordions_accordion_string(data, p_id, g_id, entrant_id, set) {
 	      			<!-- end of one rounds dropdown -->
 	`
 	return s
+}
+
+
+
+
+
+
+
+function new_player_override(opponent_id, result){
+	//if the override already exists, replace it
+	var alreadyExists = false;
+	for(var i = 0; i < player_override['overrides'].length; i++) {
+		if(player_override['overrides'][i]['opponent_id'] == opponent_id) {
+			player_override['overrides'][i]['result'] = result;
+			alreadyExists = true;
+		}
+	}
+	if(!alreadyExists){
+		player_override['overrides'].push({'opponent_id':opponent_id, 'result': result});
+	}
+	handle_results(data, tournament_id, event_id, entrant_id);
 }

@@ -9,9 +9,6 @@ function build_potential_bracket(tournament_id, event_id, entrant_id) {
 		mlapo(tournament_id, event_id, entrant_id, 0, g_id)
 	}
 
-	bracket['phases'] = [];
-	bracket['phases'].push(phase_1);
-	console.log(data)
 
 }
 
@@ -25,7 +22,6 @@ function mlapo(tournament_id, event_id, entrant_id, p_id, g_id) {
 	var lowest_round_id = find_lowest_round_id(phase, g_id, entrant_id);
 	var highest_losers_sets = find_sets_of_round(phase, g_id, entrant_id, lowest_round_id);
 
-	console.log("--------Starting new group-----------");
 	for(var i = 0; i < highest_winners_sets.length; i++) {
 		mlapo_by_set(tournament_id, event_id, entrant_id, p_id, g_id, highest_winners_sets[i]);
 	}
@@ -209,6 +205,33 @@ function get_set_from_id(phase, set_id) {
 function get_index_of_probable_winner(data, p_id, set){
 	var player_id_at_0 = set['slots'][0]['entrant']['id'];
 	var player_id_at_1 = set['slots'][1]['entrant']['id'];
+
+
+	//first see if the player has an override for this match
+	if(player_id_at_0 == player_override['entrant_id']) {
+		for(var i = 0; i < player_override['overrides'].length; i++){
+			if(player_override['overrides'][i]['opponent_id'] == player_id_at_1) {
+				if (player_override['overrides'][i]['result'] == 1) {
+					return 0;
+				}
+				else {
+					return 1;
+				}
+			}
+		}
+	} else if(player_id_at_1 == player_override['entrant_id']) {
+		for(var i = 0; i < player_override['overrides'].length; i++){
+			if(player_override['overrides'][i]['opponent_id'] == player_id_at_0) {
+				if (player_override['overrides'][i]['result'] == 1) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+		}
+	}
+
 	var player_seed_at_0;
 	var player_seed_at_1;
 	for(var i = 0; i < data['event']['phases'][0]['seeds'].length; i++) {
@@ -229,6 +252,31 @@ function get_index_of_probable_winner(data, p_id, set){
 }
 
 function true_if_p1_would_win(data, p1, p2) {
+	//first see if the player has an override for this match
+	if(p1 == player_override['entrant_id']) {
+		for(var i = 0; i < player_override['overrides'].length; i++){
+			if(player_override['overrides'][i]['opponent_id'] == p2) {
+				if (player_override['overrides'][i]['result'] == 1) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+	} else if(p2 == player_override['entrant_id']) {
+		for(var i = 0; i < player_override['overrides'].length; i++){
+			if(player_override['overrides'][i]['opponent_id'] == p1) {
+				if (player_override['overrides'][i]['result'] == 1) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+		}
+	}
+
 	var seed1 = null;
 	var seed2 = null;
 	for(var i = 0; i < data['event']['phases'][0]['seeds'].length; i++) {
