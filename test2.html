@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/tournament.css">
+<title>Tournament DashBoard</title>
+
+<div class="container">
+	<h3 class="text-center" id="header">Welcome to your Tournament Dashboard - Loading tournament...</h3>
+	<div class="container" id="tourney-dashboard"></div>
+	<div id="accordion">
+
+
+
+
+		<div class="card">
+		    <div class="card-header" id="heading0">
+			      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+				          	Bracket
+				        </button>
+			      </h5>
+		    </div>
+	
+	    	<div id="collapse0" class="collapse" aria-labelledby="heading0" data-parent="#accordion">
+	      		<div id="accordion0">
+	        		
+		      			<!-- start of one rounds dropdown -->
+						<div class="card">
+						    <div class="card-header" id="heading0_undefined">
+						      	<h5 class="mb-0">Winners Quarter-Final against Player 26 resulted in: WIN</h5>
+						    </div>
+						</div>
+		      			<!-- end of one rounds dropdown -->
+			
+		      			<!-- start of one rounds dropdown -->
+						<div class="card">
+						    <div class="card-header" id="heading0_undefined">
+						      	<h5 class="mb-0">Winners Semi-Final against Player 8 resulted in: LOSS</h5>
+						    </div>
+						</div>
+		      			<!-- end of one rounds dropdown -->
+			
+		      			<!-- start of one rounds dropdown -->
+						<div class="card">
+						    <div class="card-header" id="heading0_undefined">
+						      	<h5 class="mb-0">Losers Quarter-Final against Player 42 resulted in: LOSS</h5>
+						    </div>
+						</div>
+		      			<!-- end of one rounds dropdown -->
+			
+	      		</div>
+	    	</div>
+	  	</div>
+	
+		<div class="card">
+		    <div class="card-header" id="heading1">
+			      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+				          	top 16
+				        </button>
+			      </h5>
+		    </div>
+	
+	    	<div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordion">
+	      		<div id="accordion1">
+	        		hello
+	      		</div>
+	    	</div>
+	  	</div>
+	
+		<div class="card">
+		    <div class="card-header" id="heading2">
+			      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+				          	top 4
+				        </button>
+			      </h5>
+		    </div>
+	
+	    	<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordion">
+	      		<div id="accordion2">
+	        		hello
+	      		</div>
+	    	</div>
+	  	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+	<!-- in here should be an accordion from bootstrap. it should have the different phases of the event listed, upon clicking on one of them
+		 the users upcoming matches appear. These upcoming matches should also be an accordion that each open up into all the potential opponents for
+		 that round... clicking on one of these should send us to a player scouting page that has yet to be created. Each round should either be 
+		 1. green if the entrant has already won that round (doesn't need to be accordion peice here)
+		 2. red if the entrant has already lost that round (doesn't need to be accordion peice here)
+		 3. very light green if the entrant is projected to win this round
+		 4. very light red if the entrant is projected to lose this round
+
+		 For types 3 & 4 we need to include a flip for "what if I win this match" and upon flicking this switch
+		 we essentially recalculate the entire dashboard assuming the entrant wins/loses at that point (this will affect other phases of the tournament as well).
+		 Note: 3 will have the switch pre-set to "what if I win this match"
+		 Note: 4 will have the switch pre-set to "what if I lose this match" -->
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="/static/js/tournament.js"></script>
+<script type="text/javascript">
+    page_load({{  tournament  }}, {{  event  }}, {{entrant}})
+</script>

@@ -14,7 +14,7 @@ def testing():
 
     potential_tournaments = []
     for tourney in results['tournaments']['nodes']:
-        if (tourney['state'] != 2 or tourney['state'] != 4) and tournament_name.lower() in tourney['name'].lower():
+        if (tourney['state'] != 3 and tourney['state'] != 5) and tournament_name.lower() in tourney['name'].lower():
             potential_tournaments.append(tourney)
 
 
@@ -64,7 +64,7 @@ def perform_tournament_api_call(coordinates):
     variables = {
         "perPage": 100,
         "coordinates": coordinates,
-        "radius": "500mi",
+        "radius": "1500mi",
         "videogameIds": [1, 2, 3, 4, 5, 29]
     }
     results = client.execute(query1, variables)
