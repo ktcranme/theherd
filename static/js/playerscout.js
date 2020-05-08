@@ -21,8 +21,19 @@ function page_load(player_id) {
 function handle_results(data, player_id) {
 	if(data == null || data.length == 0){
 		$('#noResultsCollapse').collapse("toggle");
+		return
 	}
 	player_name = data.gamerTag
+	
+	if(data.sets == null || data.sets.length == 0){
+		
+		var error_string = "";
+		error_string += "<div style='margin-bottom:30px;'>"
+		error_string += `<h2 class="text-center">`+"No information for player  "+ player_name+`</h2>`
+		$('#error1').html(error_string);
+		$('#noResultsCollapse_sets').collapse("toggle");
+		return
+	}
 	var sets = data.sets
 	var tour = []
     var lookup_tour = {};
@@ -101,7 +112,6 @@ function create_list(data, tournament) {
 		return;
 	} else {
 		var list_obj = generate_list(data, tournament)
-		console.log("AAAA;  " + player_name);
 		var entire_form_string = "";
 		entire_form_string += "<div style='margin-bottom:30px;'>"
 		entire_form_string += `<h2 class="text-center">`+player_name+`</h2>`
