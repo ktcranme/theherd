@@ -29,26 +29,36 @@ def testing():
         if ind != -1:
           opponent = tourinfo[:indexforin-1]
           playerwithteam = tourinfo[indexforin+1:]
+        
+        if indexforin == -1:
+          continue
 
         #for participents in tour['slots']:
-        prot_id1 = json.dumps(tour['slots'][1]['entrant'])
+        prot_id1 = json.dumps(tour['slots'][0]['entrant'])
         prot_id2 = json.dumps(tour['slots'][1]['entrant'])
         player_id1 = str(player_id)
         ind = prot_id1.find(player_id1)
         if ind != -1:
-          ind = prot_id1.find('"id":')
-          ind2 = prot_id1.find('"gamerTag":')
-          opponent_id = prot_id1[ind+5:ind2-2]
-        else:
           ind = prot_id2.find('"id":')
           ind2 = prot_id2.find('"gamerTag":')
-          opponent_id = prot_id2[ind+5:ind2-2]
-        
+          if ind < ind2:
+            opponent_id = prot_id2[ind+5:ind2-2]
+          else:
+            opponent_id = prot_id2[ind+5:-4]
+        else:
+          ind = prot_id1.find('"id":')
+          ind2 = prot_id1.find('"gamerTag":')
+          if ind < ind2:
+            opponent_id = prot_id1[ind+5:ind2-2]
+          else:
+            opponent_id = prot_id1[ind+5:-4]
+
         try:
           opponent_id = int(opponent_id)
         except:
           continue
-
+        
+        
         score1 = playerwithteam[-1]
         score2 = opponent[-1]
         if score1 > score2:
@@ -65,6 +75,10 @@ def testing():
                 "tournament": tour["event"]["tournament"]["name"],
                 "event": tour["event"]["name"]}
         data["sets"].append(add_tour)
+    
+    #here loop through all the sets inside the results and append them to
+    #the 'sets' attribute inside the data object. Try to follow the format
+    #I have specified in playerscout.js
 
     #here loop through all the sets inside the results and append them to
     #the 'sets' attribute inside the data object. Try to follow the format
@@ -104,7 +118,6 @@ def perform_scout_api_call(player_id):
                       slots{
                         entrant{
                             participants{
-                              connectedAccounts
                               player{
                                 id
                                 gamerTag
