@@ -4,11 +4,21 @@
 <title>Smash.gg Scouter</title>
 
 
-<div class="container">
-	<!-- here you can add the optional loading signal to be hidden later
-		 also you can either but the html elements here and leave them blank then add to them in javascript
-		 once the loading is finished. Or you can generate everything through javascript and just modify this 
-		 container using $("#mainContainer").html(the_big_ass_html_string_you_created) -->
+<div class="container" id="mainContainer">
+	
+    <div class="input-group input-group-lg mb-3">
+		<div class="container collapse" id="noResultsCollapse">
+            <div class="card card-body">
+                There are no attendants for this event. Please go back and try a different one.
+            </div>
+        </div>
+		<div class="container no-side-padding collapse" id="scout-list-collapse">
+			<!--div class="list-obj" id="scout-list"-->
+			<div class="test" id="scout-list"></div>
+			
+			</div>
+		</div>
+	</div>
 </div>
 
 
